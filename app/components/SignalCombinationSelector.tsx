@@ -1,5 +1,6 @@
 'use client';
 
+/* Assignment: Add at least three more modes (e.g. redOnly, greenOnly, 2xG-R-B) in type and OPTIONS (Additional Work 3). */
 export type SignalCombinationMode = 'default';
 
 const SIGNAL_COMBINATION_OPTIONS: {

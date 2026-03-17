@@ -329,8 +329,10 @@ export default function Home() {
             Send labeled segment
           </button>
           {segmentStatus && <p className="mt-2 text-sm">{segmentStatus}</p>}
+          {/* Assignment: Add "Download labeled_records.json" button here (Additional Work 1). */}
         </div>
 
+        {/* Assignment: Add Upload model and scaler UI here (Additional Work 2). */}
         <div className="mt-4 border-t pt-4">
           <h3 className="font-medium mb-2">Signal quality (ML inference)</h3>
           <p className="text-sm text-gray-600 mb-2">

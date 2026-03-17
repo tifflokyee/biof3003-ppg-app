@@ -102,7 +102,7 @@ export function computePPGFromRGB(
   pixelCount: number,
   mode: string,
 ): number {
-  // Default: red channel (good for flash + finger over camera). Assignment: add more modes.
+  // Default: 2R−G−B. Assignment: add cases for redOnly, greenOnly, 2xG-R-B (Additional Work 3).
   if (mode === 'default') return (2 * rSum - gSum - bSum) / pixelCount;
   return (2 * rSum - gSum - bSum) / pixelCount; // fallback
 }
