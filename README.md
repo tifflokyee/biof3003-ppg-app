@@ -72,3 +72,13 @@ python train_quality_model.py
 
 Your custom RandomForest model will now be used for real-time quality inference.
 
+--- 
+
+## Quick User Guide 
+1. Allow camera access and select a signal combination
+2. Observe PPG waveform and heart rate
+3. Label segments as Good or Bad → Send
+4. Download labeled data when ready
+5. Train model locally
+6. Upload model & scaler in the app
+7. Real-time signal quality will work automatically
