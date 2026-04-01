@@ -5,7 +5,7 @@ Built as the final assignment for BIOF3003 Digital Health Technology (The Univer
 
 **Live Demo** → https://your-username-ppg-app.vercel.app (replace after Vercel deployment)  
 **Backend API** → https://your-username.pythonanywhere.com (replace after PythonAnywhere deployment)  
-**GitHub Repo** → https://github.com/your-username/ppg-heartrate (this repo)
+**GitHub Repo** → https://github.com/tifflokyee/biof3003-ppg-app.git
 
 ---
 
