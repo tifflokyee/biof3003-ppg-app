@@ -67,7 +67,7 @@ Recommended split deployment:
 3. Add this environment variable in the Vercel project settings:
 
 ```env
-FLASK_URL=https://your-pythonanywhere-domain.pythonanywhere.com
+FLASK_URL=https://tifflok.pythonanywhere.com
 ```
 
 4. Redeploy after saving the environment variable.
@@ -91,7 +91,7 @@ pip install -r requirements.txt
 After deployment, confirm the backend is live:
 
 ```text
-https://your-pythonanywhere-domain.pythonanywhere.com/health
+https://tifflok.pythonanywhere.com/health
 ```
 
 Expected response:
