@@ -18,6 +18,8 @@ QUALITY_MODEL = None
 QUALITY_SCALER = None
 BACKEND_DIR = os.path.dirname(__file__)
 PROJECT_ROOT = os.path.dirname(BACKEND_DIR)
+MODEL_FILE = os.path.join(BACKEND_DIR, "quality_model.joblib")
+SCALER_FILE = os.path.join(BACKEND_DIR, "quality_scaler.joblib")
 
 
 def load_quality_model():
@@ -25,12 +27,9 @@ def load_quality_model():
     if QUALITY_MODEL is not None:
         return
     try:
-        import joblib
-        model_path = os.path.join(BACKEND_DIR, "quality_model.joblib")
-        scaler_path = os.path.join(BACKEND_DIR, "quality_scaler.joblib")
-        if os.path.exists(model_path) and os.path.exists(scaler_path):
-            QUALITY_MODEL = joblib.load(model_path)
-            QUALITY_SCALER = joblib.load(scaler_path)
+        if os.path.exists(MODEL_FILE) and os.path.exists(SCALER_FILE):
+            QUALITY_MODEL = joblib.load(MODEL_FILE)
+            QUALITY_SCALER = joblib.load(SCALER_FILE)
     except Exception:
         pass
 
@@ -128,10 +127,15 @@ def upload_model():
         scaler_bytes = base64.b64decode(scaler_b64)
 
         global QUALITY_MODEL, QUALITY_SCALER
-        QUALITY_MODEL = joblib.load(io.BytesIO(model_bytes))
-        QUALITY_SCALER = joblib.load(io.BytesIO(scaler_bytes))
+        with open(MODEL_FILE, "wb") as model_file:
+            model_file.write(model_bytes)
+        with open(SCALER_FILE, "wb") as scaler_file:
+            scaler_file.write(scaler_bytes)
 
-        return jsonify({"success": True, "message": "Model and scaler loaded"})
+        QUALITY_MODEL = joblib.load(MODEL_FILE)
+        QUALITY_SCALER = joblib.load(SCALER_FILE)
+
+        return jsonify({"success": True, "message": "Model and scaler saved and loaded"})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 400
 
