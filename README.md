@@ -3,8 +3,8 @@
 **A polished, hostable PPG heart-rate app with custom signal combinations, modified ML model, and clean UI**  
 Built as the final assignment for BIOF3003 Digital Health Technology (The University of Hong Kong).
 
-**Live Demo** -> https://your-username-ppg-app.vercel.app  
-**Backend API** -> https://your-username.pythonanywhere.com  
+**Live Demo** -> https://biof3003-ppg-app.vercel.app
+**Backend API** -> https://tifflok.pythonanywhere.com/health  
 **GitHub Repo** -> https://github.com/tifflokyee/biof3003-ppg-app.git
 
 ## Features
