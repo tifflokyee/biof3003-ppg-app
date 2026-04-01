@@ -1,8 +1,11 @@
+import base64
+import io
 import json
 import os
 from datetime import datetime
 
 import numpy as np
+import joblib
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
@@ -33,7 +36,7 @@ def load_quality_model():
 
 
 DATA_FILE = os.path.join(BACKEND_DIR, "records.json")
-LABELED_FILE = os.path.join(PROJECT_ROOT, "labeled_records.json")
+LABELED_FILE = os.path.join(BACKEND_DIR, "labeled_records.json")
 
 
 def load_records():
@@ -105,6 +108,30 @@ def save_labeled_segment():
         })
         save_labeled(records)
         return jsonify({"success": True}), 201
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 400
+
+
+@app.route('/upload-model', methods=['POST'])
+def upload_model():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"success": False, "error": "No body"}), 400
+
+        model_b64 = data.get("model")
+        scaler_b64 = data.get("scaler")
+        if not isinstance(model_b64, str) or not isinstance(scaler_b64, str):
+            return jsonify({"success": False, "error": "Missing model or scaler"}), 400
+
+        model_bytes = base64.b64decode(model_b64)
+        scaler_bytes = base64.b64decode(scaler_b64)
+
+        global QUALITY_MODEL, QUALITY_SCALER
+        QUALITY_MODEL = joblib.load(io.BytesIO(model_bytes))
+        QUALITY_SCALER = joblib.load(io.BytesIO(scaler_bytes))
+
+        return jsonify({"success": True, "message": "Model and scaler loaded"})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 400
 

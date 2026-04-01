@@ -1,10 +1,8 @@
-// app/lib/ppg.ts — pure signal helpers (no React, no DOM)
-import type { Valley, HeartRateResult, HRVResult } from '../types';
+import type { SignalCombinationMode } from '../components/SignalCombinationSelector';
+import type { HeartRateResult, HRVResult, Valley } from '../types';
 
 export const FPS = 30;
-/** 10 seconds at 30 fps. Use consistently for chart, valley detection, save, and inference. */
 export const SAMPLES_TO_KEEP = 300;
-/** Minimum samples before running valley detection (2 seconds). */
 export const MIN_SAMPLES_FOR_DETECTION = 60;
 export const MIN_RR_S = 0.4;
 export const MAX_RR_S = 2.0;
@@ -100,9 +98,18 @@ export function computePPGFromRGB(
   gSum: number,
   bSum: number,
   pixelCount: number,
-  mode: string,
+  mode: SignalCombinationMode,
 ): number {
-  // Default: 2R−G−B. Assignment: add cases for redOnly, greenOnly, 2xG-R-B (Additional Work 3).
-  if (mode === 'default') return (2 * rSum - gSum - bSum) / pixelCount;
-  return (2 * rSum - gSum - bSum) / pixelCount; // fallback
+  switch (mode) {
+    case 'default':
+      return (2 * rSum - gSum - bSum) / pixelCount;
+    case 'redOnly':
+      return rSum / pixelCount;
+    case 'greenOnly':
+      return gSum / pixelCount;
+    case '2xG-R-B':
+      return (2 * gSum - rSum - bSum) / pixelCount;
+    default:
+      return (2 * rSum - gSum - bSum) / pixelCount;
+  }
 }

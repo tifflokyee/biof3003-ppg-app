@@ -20,7 +20,12 @@ export default function usePPGFromSamples(samples: number[]) {
   const [hrv, setHrv] = useState<HRVResult>({ sdnn: 0, confidence: 0 });
 
   useEffect(() => {
-    if (samples.length < MIN_SAMPLES_FOR_DETECTION) return;
+    if (samples.length < MIN_SAMPLES_FOR_DETECTION) {
+      setValleys([]);
+      setHeartRate({ bpm: 0, confidence: 0 });
+      setHrv({ sdnn: 0, confidence: 0 });
+      return;
+    }
     const toUse = samples.slice(-SAMPLES_TO_KEEP);
     const v = detectValleys(toUse, FPS);
     setValleys(v);
