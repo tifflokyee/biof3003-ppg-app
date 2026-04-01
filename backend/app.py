@@ -13,6 +13,8 @@ CORS(app)
 
 QUALITY_MODEL = None
 QUALITY_SCALER = None
+BACKEND_DIR = os.path.dirname(__file__)
+PROJECT_ROOT = os.path.dirname(BACKEND_DIR)
 
 
 def load_quality_model():
@@ -21,8 +23,8 @@ def load_quality_model():
         return
     try:
         import joblib
-        model_path = os.path.join(os.path.dirname(__file__), "quality_model.joblib")
-        scaler_path = os.path.join(os.path.dirname(__file__), "quality_scaler.joblib")
+        model_path = os.path.join(BACKEND_DIR, "quality_model.joblib")
+        scaler_path = os.path.join(BACKEND_DIR, "quality_scaler.joblib")
         if os.path.exists(model_path) and os.path.exists(scaler_path):
             QUALITY_MODEL = joblib.load(model_path)
             QUALITY_SCALER = joblib.load(scaler_path)
@@ -30,8 +32,8 @@ def load_quality_model():
         pass
 
 
-DATA_FILE = os.path.join(os.path.dirname(__file__), "records.json")
-LABELED_FILE = os.path.join(os.path.dirname(__file__), "labeled_records.json")
+DATA_FILE = os.path.join(BACKEND_DIR, "records.json")
+LABELED_FILE = os.path.join(PROJECT_ROOT, "labeled_records.json")
 
 
 def load_records():
