@@ -37,7 +37,7 @@ cd biof3003-ppg-app
 
 ### 2. Frontend Setup
 ```bash
-Bashnpm install
+npm install
 ```
 Create .env.local in the root folder:
 ```bash
