@@ -27,38 +27,13 @@
 
 ---
 
-## 🚀 Local Setup
+## Local Setup
 
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/tifflokyee/biof3003-ppg-app.git
 cd biof3003-ppg-app
-2. Frontend Setup
-Bashnpm install
-Create .env.local in the root folder:
-envFLASK_URL=http://127.0.0.1:5000
-3. Backend Setup & Run
-Bashcd backend
-pip install -r requirements.txt
-python app.py
-4. Run Frontend (new terminal)
-Bashnpm run dev
-Open http://localhost:3000
-
-🧪 Training Your Own Model
-
-Collect labeled segments (Good / Bad) in the app
-Click "Download labeled_records.json"
-Save the downloaded file to backend/labeled_records.json
-Train the model:Bashcd backend
-python train_quality_model.py
-In the app, click "Upload model and scaler" and select the two .joblib files
-
-Your custom RandomForest model will now be used for real-time quality inference.
-
-🔬 Modifications Made (Assignment Requirements)
-
-
+```
 
 
 
