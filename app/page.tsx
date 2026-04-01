@@ -33,6 +33,10 @@ export default function Home() {
     confidence: number;
     message?: string;
   } | null>(null);
+  const [labeledSegments, setLabeledSegments] = useState<{
+    ppgData: number[];
+    label: string;
+  }[]>([]);
 
   const samplesRef = useRef<number[]>([]);
   useEffect(() => {
@@ -105,11 +109,31 @@ export default function Home() {
         body: JSON.stringify({ ppgData: ppgSegment, label: segmentLabel }),
       });
       const data = await res.json();
-      if (data.success) setSegmentStatus(`Saved as ${segmentLabel}`);
-      else setSegmentStatus('Error: ' + (data.error || 'Unknown'));
+      if (data.success) {
+        setSegmentStatus(`Saved as ${segmentLabel}`);
+        setLabeledSegments((prev) => [
+          ...prev,
+          { ppgData: ppgSegment, label: segmentLabel },
+        ]);
+      } else setSegmentStatus('Error: ' + (data.error || 'Unknown'));
     } catch {
       setSegmentStatus('Error: request failed');
     }
+  }
+
+  function downloadLabeledJson() {
+    if (labeledSegments.length === 0) {
+      alert('No labeled segments yet! Send some segments first.');
+      return;
+    }
+    const json = JSON.stringify(labeledSegments, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'labeled_records.json';
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   async function saveRecord() {
@@ -322,12 +346,21 @@ export default function Home() {
               Bad
             </label>
           </div>
-          <button
-            onClick={sendLabeledSegment}
-            className="px-4 py-2 bg-amber-500 text-white rounded"
-          >
-            Send labeled segment
-          </button>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={sendLabeledSegment}
+              className="px-4 py-2 bg-amber-500 text-white rounded"
+            >
+              Send labeled segment
+            </button>
+            <button
+              onClick={downloadLabeledJson}
+              disabled={labeledSegments.length === 0}
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded disabled:opacity-50"
+            >
+              Download labeled_records.json
+            </button>
+          </div>
           {segmentStatus && <p className="mt-2 text-sm">{segmentStatus}</p>}
           {/* Assignment: Add "Download labeled_records.json" button here (Additional Work 1). */}
         </div>
